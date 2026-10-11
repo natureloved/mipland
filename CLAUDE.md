@@ -31,7 +31,7 @@ src/app/admin/chat/page.tsx ──► Server Action ──► Vercel REST API �
 ## Locked-in decisions
 
 - **Knowledge source:** local markdown in `content/mips/` (one file per MIP +
-  `glossary.md` + `_overview.md`); authored/edited in this repo.
+  `_overview.md`); authored/edited in this repo.
 - **Corpus scale:** small — stuff everything into the system prompt each
   request. No RAG. Re-evaluate past ~30k tokens.
 - **Reply control:** runtime-editable from `/admin/chat`, backed by Vercel Edge

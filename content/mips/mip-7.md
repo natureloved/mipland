@@ -35,4 +35,4 @@ added safely without colliding with future EIPs.
 
 ## Discussion link
 
-https://mipland.org/mip-7
+https://forum.monad.xyz/t/mip-7-extension-opcodes/387

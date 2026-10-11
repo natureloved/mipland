@@ -1,6 +1,6 @@
 # Reviewing upstream MIP changes
 
-Run `pnpm check:mip-upstream` with Node 22. The command checks the five MIPs
+Run `pnpm check:mip-upstream` with Node 22. The command checks every MIP
 covered by the Markdown knowledge bundle against `monad-crypto/MIPs`.
 `GITHUB_TOKEN` is optional locally and avoids the unauthenticated API rate limit.
 
@@ -18,17 +18,13 @@ It does not edit knowledge, move baselines or open issues. Ordinary PR tests
 stay offline; they also check manifest coverage against `MARKDOWN_MIP_SLUGS`.
 The existing required CI job remains `test`.
 
-## Initial baseline
+## Current baseline
 
-`content/mips/upstream-sources.json` starts with a **conservative historical
-source snapshot**, commit `d2fe40811999387de9ac371692198bb8f72c10fb` (June 15,
-2026), rather than certifying a new review of today's explainers.
-At that revision MIP-12 is Draft, matching the legacy local copy; upstream
-changed it to Final on August 12 in `2a7e18894f1e55fb043080cb8cef15c7f5647768`.
-The first live run should therefore request review, including that change.
-The other covered files also changed since this snapshot, so they are reported
-for review too. This check does not make the content corrections tracked in
-issue #51 or the chat-instruction changes in #52.
+Every covered MIP was reviewed against upstream commit
+`282d18125d6590447d9229550887581385649e48` on October 11, 2026. Before that,
+the manifest held a June 15, 2026 snapshot (`d2fe408`) that was never moved
+after the October 4 content corrections, so the daily check kept failing.
+Bump the baseline in the same change that reviews the content.
 
 ## Record a reviewed baseline
 
