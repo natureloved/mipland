@@ -45,7 +45,7 @@ export const DEFAULT_CONFIG: ChatConfig = {
   ],
   refusalText:
     "I can only answer questions about Monad Improvement Proposals. " +
-    "Try asking about MIP-3, MIP-4, MIP-7, MIP-8, or MIP-12.",
+    "Try asking about MIP-3, MIP-4, MIP-7, MIP-8, MIP-12, or MIP-15.",
   temperature: 0.2,
   maxTokens: 600,
 };
