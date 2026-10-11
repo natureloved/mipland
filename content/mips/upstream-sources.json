@@ -36,6 +36,12 @@
       "path": "MIPs/MIP-15.md",
       "reviewedCommit": "282d18125d6590447d9229550887581385649e48",
       "reviewedBlobSha": "817bef9f5a56565b6fb8c0090ef7a16f44026262"
+    },
+    {
+      "slug": "mip-18",
+      "path": "MIPs/MIP-18.md",
+      "reviewedCommit": "282d18125d6590447d9229550887581385649e48",
+      "reviewedBlobSha": "cebb259295113f6086139e55444f7876287291c9"
     }
   ]
 }

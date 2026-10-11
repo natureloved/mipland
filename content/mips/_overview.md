@@ -26,6 +26,9 @@ notes, and a path to activation.
   network. Adopts six EIPs from Ethereum's Glamsterdam upgrade (EIP-7708,
   EIP-7843, EIP-7981, EIP-7997, EIP-8024, EIP-8246) and explains why Monad
   leaves the others out; see `mip-15.md`.
+- **MIP-18: Call Stack Introspection Opcodes.** In Review, not active on any
+  network. Adds `CALLSTACKDEPTH` (`0xAE 0x00`) and `CALLERN` (`0xAE 0x01`)
+  under MIP-7's extension prefix, 2 gas each; see `mip-18.md`.
 
 > TODO(author): paste the canonical one-paragraph summary for each MIP here.
 > Anything below this line in this file is treated as authoritative context by

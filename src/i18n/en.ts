@@ -632,7 +632,8 @@ const en = {
       monadNote:
         "When a selector is undefined, behaves as INVALID. Future MIPs assign specific selectors to Monad features.",
       selectorTable: "Extension selector table (first 32 of ~220 shown)",
-      statusAll: "status: all unassigned",
+      statusAll: "status: none assigned · 0x00 and 0x01 proposed by MIP-18",
+      proposed: "MIP-18",
       moreSelectors: "+ ~190 more selectors \u00b7 all unassigned \u00b7 future MIPs claim specific slots",
     },
     jumpdest: {
@@ -697,7 +698,7 @@ const en = {
         "Contracts using 0xAE XX on Monad run on Ethereum as INVALID, not as some wrong function. Silent misbehavior is impossible. Bytecode that does work on Monad is predictably inert on Ethereum.",
       card3Title: "~220 slots for future MIPs",
       card3Desc:
-        "All ~220 selectors are unassigned today. Each future Monad feature claims its own selector via a new MIP. The encoding format never changes; only the dispatch table grows.",
+        "No selector is assigned yet. MIP-18, also in Review, proposes 0x00 and 0x01 for CALLSTACKDEPTH and CALLERN. Each future Monad feature claims its own selector via a new MIP. The encoding format never changes; only the dispatch table grows.",
     },
   },
   mip12: {
@@ -857,6 +858,95 @@ const en = {
         "Monad doesn't use Ethereum's devp2p networking. Informational EIPs change no protocol behavior.",
     },
   },
+  mip18: {
+    hero: {
+      title: "Who called the caller?",
+      depth: "How many calls deep the current code is running.",
+      callern: "The caller of any frame further up the call stack.",
+      desc: "MIP-18 is in Review and is not active on any network. It adds two opcodes under MIP-7's 0xAE prefix. The spec says they are for future Monad protocol upgrades and does not name them yet.",
+    },
+    stack: {
+      title: "Step through a call stack",
+      subtitle:
+        "Click a frame to run code there, then change n. CALLERN(n) returns what CALLER would return n frames up.",
+      plainName: "Plain calls",
+      plainDesc:
+        "alice sends a transaction to an aggregator. It calls a router, the router calls a pool, and the pool calls a token.",
+      delegateName: "With a DELEGATECALL",
+      delegateDesc:
+        "alice's smart wallet calls a vault. The vault runs library code with DELEGATECALL, and that code calls a token.",
+      frames: "Call frames",
+      eoa: "sends the transaction",
+      tx: "transaction",
+      runsAs: "running as",
+      running: "running here",
+      clickHint: "Click a frame to make it the one running.",
+      decrease: "Decrease n",
+      increase: "Increase n",
+      callerIn: "CALLER in",
+      noFrame: "n is larger than the depth",
+      sameAsCaller: "same as CALLER",
+      sameAsOrigin: "same as ORIGIN",
+      outOfRange: "out of range: returns 0, does not halt",
+      delegateNote:
+        "DELEGATECALL keeps the caller of the frame that made it. Wallet is CALLER in both F1 and F2, so from F3 CALLERN(1) and CALLERN(2) both return Wallet.",
+      precompileNote:
+        "Calls to precompiles also add a frame and count toward depth. No code runs in that frame to read it.",
+    },
+    opcodes: {
+      title: "The two opcodes",
+      subtitle:
+        "Both use the first two selectors after 0xAE. Neither takes argument bytes, so the encoding rules for extension arguments don't apply.",
+      mip7Link: "How 0xAE works (MIP-7)",
+      bytes: "Bytes",
+      name: "Name",
+      input: "Pops",
+      output: "Pushes",
+      gas: "Gas",
+      none: "nothing",
+      depthExample: "Pushes the current depth. The transaction's own frame is depth 0.",
+      grandparentExample:
+        "Pushes the caller of the frame that called you. n comes from the stack, so it can be computed at runtime.",
+      originExample: "Uses the depth as n. The result is always the same as ORIGIN.",
+      note: "2 gas covers the whole two-byte opcode, the same as CALLER and ADDRESS. The client already holds the call stack in memory, so both run in constant time.",
+    },
+    auth: {
+      title: "Don't use CALLERN for access control",
+      subtitle:
+        "A treasury lets only the admin withdraw. Compare checking CALLER with checking CALLERN(1).",
+      directName: "Admin calls the treasury",
+      directDesc: "The admin sends a transaction straight to Treasury.withdraw().",
+      relayName: "Admin calls an attacker's contract",
+      relayDesc:
+        "The attacker gets the admin to call ClaimAirdrop. That contract calls Treasury.withdraw() and sends the funds to the attacker.",
+      passes: "passes",
+      reverts: "reverts",
+      direct_caller: "The admin is the direct caller, so the withdrawal goes through.",
+      direct_callern:
+        "The treasury's frame is depth 0. There is no frame above it, so CALLERN(1) is 0 and the admin is locked out.",
+      relay_caller: "CALLER is ClaimAirdrop. The check fails and the funds stay put.",
+      relay_callern:
+        "The admin is one frame up, so the check passes. The attacker's contract withdraws the funds.",
+      rule: "This is the same problem as checking tx.origin. The spec says contracts should not use CALLERN(n) with n above 0 for authorization.",
+    },
+    takeaways: {
+      title: "Who this affects",
+      card1Who: "Contract developers",
+      card1Title: "CALLER and ORIGIN, plus every frame between",
+      card1Desc:
+        "CALLERN(0) is CALLER and CALLERN(depth) is ORIGIN. The callers in between could not be read from inside a contract before.",
+      card2Who: "Auditors",
+      card2Title: "Flag CALLERN in auth checks",
+      card2Desc:
+        "A check on CALLERN(1) or higher can be passed by any contract the privileged account is tricked into calling.",
+      card3Who: "Simulators, AA bundlers, analyzers",
+      card3Title: "Behavior can depend on the path",
+      card3Desc:
+        "A contract can act differently depending on how deep it is or who sits higher in the stack. Tools that assume only the direct caller, calldata and state matter may need changes.",
+      openQuestion:
+        "The spec gives no use case beyond future Monad upgrades in development at Category Labs. Until those are published, the page can show what the opcodes return, but not which feature needs them.",
+    },
+  },
   clearSigning: {
     hero: {
       title: "Clear Signing on Monad",
@@ -977,12 +1067,14 @@ const en = {
     mip4Note:
       "MIP-4 shipped as part of the MONAD_NINE network upgrade. The precompile at 0x1001 lets contracts detect reserve balance violations mid-execution.",
     mip7Note:
-      "MIP-7 aligns with EIP-8163, which reserves 0xAE on Ethereum L1 for non-L1 extension use. All ~220 selectors are currently unassigned; future MIPs will claim specific slots.",
+      "MIP-7 aligns with EIP-8163, which reserves 0xAE on Ethereum L1 for non-L1 extension use. No selector is assigned yet. MIP-18 (in Review) proposes 0x00 and 0x01; future MIPs will claim other slots.",
     mip12Note:
       "MIP-12 is Final. Its target vote pace changed from 400ms to 300ms and activated on Monad mainnet at round 89,758,000 (July 23, 2026, about 14:30 UTC). Verified against the pinned specification and official release notes on October 4, 2026. Target cadence does not guarantee observed latency or finality.",
     mip12ActivationSource: "Official activation evidence (release notes)",
     mip15Note:
       "MIP-15 is in Review and is not active on any network. Verified against the specification and the official release notes on October 10, 2026.",
+    mip18Note:
+      "MIP-18 is in Review and is not active on any network. It needs MIP-7, which is also in Review. Verified against the specification and the official release notes on October 11, 2026.",
   },
   specDisclaimer: {
     prefix: "The information on this page should not be quoted. Please refer to ",

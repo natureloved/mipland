@@ -16,6 +16,7 @@ import { GET as mip3MarkdownRoute } from "@/app/mip-3.md/route";
 import { GET as mip7MarkdownRoute } from "@/app/mip-7.md/route";
 import { GET as mip12MarkdownRoute } from "@/app/mip-12.md/route";
 import { GET as mip15MarkdownRoute } from "@/app/mip-15.md/route";
+import { GET as mip18MarkdownRoute } from "@/app/mip-18.md/route";
 import {
   buildHomeMarkdown,
   buildLlmsTxt,
@@ -93,6 +94,17 @@ describe(".md route handlers", () => {
     }
     expect(body).toContain("800 gas per address and 1,280 gas per storage key");
     expect(body).toContain("EIP-7928, Block-Level Access Lists");
+    expect(body).toContain("282d18125d6590447d9229550887581385649e48");
+  });
+
+  it("mip-18.md serves status, both selectors, and the authorization warning", async () => {
+    const body = await (await mip18MarkdownRoute()).text();
+
+    expect(body).toContain("**Proposal status:** Review");
+    expect(body).toContain("Not activated on any network");
+    expect(body).toContain("| `0xAE 0x00` | `CALLSTACKDEPTH` |");
+    expect(body).toContain("| `0xAE 0x01` | `CALLERN` |");
+    expect(body).toContain("SHOULD NOT use `CALLERN(n)` with `n > 0` for authorization");
     expect(body).toContain("282d18125d6590447d9229550887581385649e48");
   });
 });

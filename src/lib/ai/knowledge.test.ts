@@ -32,3 +32,14 @@ describe("MIP-15 knowledge bundle", () => {
     expect(bundle).toContain("40 gas per byte instead of Ethereum's 64");
   });
 });
+
+describe("MIP-18 knowledge bundle", () => {
+  it("includes MIP-18 with its Review status and no activation claim", async () => {
+    const bundle = await getKnowledgeBundle();
+
+    expect(bundle).toContain("<!-- file: mip-18.md -->");
+    expect(bundle).toContain("# MIP-18: Call Stack Introspection Opcodes");
+    expect(bundle).toContain("MIP-18: Call Stack Introspection Opcodes.** In Review");
+    expect(bundle).toContain("`CALLERN(CALLSTACKDEPTH)` equals `ORIGIN`");
+  });
+});

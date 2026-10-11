@@ -1,11 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { useInView } from "../useInView";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 // A sampling of selector slots to show in the table (abbreviated view)
 const SAMPLE_SELECTORS = Array.from({ length: 32 }, (_, i) => i);
+// Proposed by MIP-18 (in Review): CALLSTACKDEPTH and CALLERN. Still INVALID today.
+const PROPOSED_SELECTORS = new Set([0x00, 0x01]);
 
 export default function NamespaceSection() {
   const { t } = useLanguage();
@@ -176,13 +179,23 @@ export default function NamespaceSection() {
                 initial={{ opacity: 0 }}
                 animate={isVisible ? { opacity: 1 } : {}}
                 transition={{ delay: i * 0.02, duration: 0.3 }}
-                className="rounded-md bg-solution-cell px-2 py-1.5 text-center"
+                className={`rounded-md px-2 py-1.5 text-center ${
+                  PROPOSED_SELECTORS.has(i)
+                    ? "bg-solution-bg border border-solution-accent/40"
+                    : "bg-solution-cell"
+                }`}
               >
                 <p className="font-mono text-[10px] text-solution-muted">
                   0x{i.toString(16).toUpperCase().padStart(2, "0")}
                 </p>
                 <p className="font-mono text-[9px] text-text-tertiary mt-0.5">
-                  INVALID
+                  {PROPOSED_SELECTORS.has(i) ? (
+                    <Link href="/mip-18" className="text-solution-accent underline underline-offset-2">
+                      {t("mip7.namespace.proposed")}
+                    </Link>
+                  ) : (
+                    "INVALID"
+                  )}
                 </p>
               </motion.div>
             ))}

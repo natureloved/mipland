@@ -23,6 +23,8 @@ added safely without colliding with future EIPs.
 - A `0xAE` byte at the very end of the code has no selector. It also causes an
   exceptional halt that consumes all remaining gas. This rule was added on
   October 1, 2026.
+- No selector is assigned yet. MIP-18 (in Review) proposes `0x00` for
+  `CALLSTACKDEPTH` and `0x01` for `CALLERN`; see `mip-18.md`.
 
 ## Backwards compatibility
 

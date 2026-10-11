@@ -43,6 +43,12 @@ const FOOTER_DATA: Record<string, {
     specLabel: "MIP-15 on GitHub",
     noteKey: "footer.mip15Note",
   },
+  "/mip-18": {
+    specUrl:
+      "https://github.com/monad-crypto/MIPs/blob/282d18125d6590447d9229550887581385649e48/MIPs/MIP-18.md",
+    specLabel: "MIP-18 on GitHub",
+    noteKey: "footer.mip18Note",
+  },
 };
 
 export default function FooterSection() {

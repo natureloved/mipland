@@ -10,6 +10,8 @@ const FORUM_URLS: Record<string, string> = {
   "/mip-7": "https://forum.monad.xyz/t/mip-7-extension-opcodes/387",
   "/mip-12": "https://forum.monad.xyz/t/mip-12-decrease-vote-pace/488",
   "/mip-15": "https://forum.monad.xyz/t/mip-15-glamsterdam-eip-activation/540",
+  "/mip-18":
+    "https://forum.monad.xyz/t/mip-18-callstackdepth-and-callern-call-stack-introspection-opcodes/556",
 };
 
 export default function DiscussionCtaSection() {

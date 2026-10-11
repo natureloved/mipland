@@ -13,6 +13,7 @@ export const MARKDOWN_MIP_SLUGS = [
   "mip-8",
   "mip-12",
   "mip-15",
+  "mip-18",
 ] as const;
 
 export type MipSlug = (typeof MARKDOWN_MIP_SLUGS)[number];
