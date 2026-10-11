@@ -1,4 +1,14 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("@/lib/mip-index", () => ({
+  getMipIndex: async () => ({
+    source: "snapshot",
+    entries: [
+      { kind: "MIP", number: 9, title: "Active Set Increase", status: "Withdrawn", specUrl: "https://mips.monad.xyz/MIPs/MIP-9" },
+      { kind: "MRC", number: 13, title: "Validator Metadata Registry", status: "Final", specUrl: "https://mips.monad.xyz/MRCs/MRC-13" },
+    ],
+  }),
+}));
 
 import { GET as indexMarkdownRoute } from "@/app/index.md/route";
 import { GET as llmsTxtRoute } from "@/app/llms.txt/route";
@@ -123,6 +133,13 @@ describe("home markdown", () => {
     for (const slug of MARKDOWN_MIP_SLUGS) {
       expect(body).toContain(`${ORIGIN}/${slug}.md`);
     }
+  });
+
+  it("lists every upstream proposal with its status", async () => {
+    const body = await buildHomeMarkdown(ORIGIN);
+    expect(body).toContain("## All proposals");
+    expect(body).toContain("- [MIP-9: Active Set Increase](https://mips.monad.xyz/MIPs/MIP-9) (Withdrawn)");
+    expect(body).toContain("- [MRC-13: Validator Metadata Registry](https://mips.monad.xyz/MRCs/MRC-13) (Final)");
   });
 });
 

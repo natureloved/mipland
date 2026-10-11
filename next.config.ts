@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: [
     "100.64.101.110",
     "im-057ceda2275143558c9109d980905a68.tail1fa5c0.ts.net",
+    "100.84.92.20",
+    "im-a9f579349f0148e6a414402b77ce4a9c.tail1fa5c0.ts.net",
   ],
   turbopack: {
     root: dirname(fileURLToPath(import.meta.url)),

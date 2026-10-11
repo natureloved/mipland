@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import HomeContent from "@/components/HomeContent";
+import { getMipIndex } from "@/lib/mip-index";
 import { absoluteUrl } from "@/lib/site";
+
+// Re-render daily so the proposal index picks up upstream status changes.
+export const revalidate = 86400;
 
 export const metadata: Metadata = {
   title: "Monad Improvement Proposals (MIPs), Explained | MIP Land",
@@ -61,7 +65,8 @@ const structuredData = {
   ],
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { entries } = await getMipIndex();
   return (
     <>
       <script
@@ -70,7 +75,7 @@ export default function HomePage() {
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
         }}
       />
-      <HomeContent />
+      <HomeContent mipIndex={entries} />
     </>
   );
 }

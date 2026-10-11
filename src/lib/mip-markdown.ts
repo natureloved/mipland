@@ -8,6 +8,7 @@ import {
   SITE_NAME,
   type MipSlug,
 } from "@/lib/mip-routes";
+import { getMipIndex } from "@/lib/mip-index";
 
 const CONTENT_DIR = join(process.cwd(), "content", "mips");
 
@@ -60,7 +61,7 @@ export async function buildLlmsTxt(origin: string): Promise<string> {
 
 /** Homepage Markdown representation served for `/` under Accept negotiation. */
 export async function buildHomeMarkdown(origin: string): Promise<string> {
-  const entries = await indexEntries();
+  const [entries, index] = await Promise.all([indexEntries(), getMipIndex()]);
   return [
     `# ${SITE_NAME}`,
     "",
@@ -69,6 +70,14 @@ export async function buildHomeMarkdown(origin: string): Promise<string> {
     "## MIP explainers",
     "",
     renderLinks(entries, origin),
+    "",
+    "## All proposals",
+    "",
+    "Statuses from the monad-crypto/MIPs repository, refreshed daily.",
+    "",
+    ...index.entries.map(
+      (e) => `- [${e.kind}-${e.number}: ${e.title}](${e.specUrl}) (${e.status})`,
+    ),
     "",
   ].join("\n");
 }

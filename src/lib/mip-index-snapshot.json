@@ -1,0 +1,131 @@
+{
+  "snapshotOf": "monad-crypto/MIPs@282d18125d6590447d9229550887581385649e48",
+  "entries": [
+    {
+      "kind": "MIP",
+      "number": 1,
+      "title": "MIP Purpose and Guidelines",
+      "status": "Living",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-1"
+    },
+    {
+      "kind": "MIP",
+      "number": 2,
+      "title": "Increase Contract Code Size Limit",
+      "status": "Final",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-2"
+    },
+    {
+      "kind": "MIP",
+      "number": 3,
+      "title": "Linear Memory",
+      "status": "Final",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-3"
+    },
+    {
+      "kind": "MIP",
+      "number": 4,
+      "title": "Reserve Balance Introspection",
+      "status": "Final",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-4"
+    },
+    {
+      "kind": "MIP",
+      "number": 5,
+      "title": "Fusaka EIP Activation",
+      "status": "Final",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-5"
+    },
+    {
+      "kind": "MIP",
+      "number": 6,
+      "title": "MONAD_NINE Network Upgrade",
+      "status": "Final",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-6"
+    },
+    {
+      "kind": "MIP",
+      "number": 7,
+      "title": "Extension opcodes",
+      "status": "Review",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-7"
+    },
+    {
+      "kind": "MIP",
+      "number": 8,
+      "title": "Page-ified Storage State",
+      "status": "Final",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-8"
+    },
+    {
+      "kind": "MIP",
+      "number": 9,
+      "title": "Active Set Increase",
+      "status": "Withdrawn",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-9"
+    },
+    {
+      "kind": "MIP",
+      "number": 10,
+      "title": "Deterministic RaptorCast",
+      "status": "Draft",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-10"
+    },
+    {
+      "kind": "MIP",
+      "number": 11,
+      "title": "Automatic Priority Fee Distribution",
+      "status": "Draft",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-11"
+    },
+    {
+      "kind": "MIP",
+      "number": 12,
+      "title": "Decrease Block Time",
+      "status": "Final",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-12"
+    },
+    {
+      "kind": "MRC",
+      "number": 13,
+      "title": "Validator Metadata Registry",
+      "status": "Final",
+      "specUrl": "https://mips.monad.xyz/MRCs/MRC-13"
+    },
+    {
+      "kind": "MRC",
+      "number": 14,
+      "title": "Account Attestation Registry",
+      "status": "Draft",
+      "specUrl": "https://mips.monad.xyz/MRCs/MRC-14"
+    },
+    {
+      "kind": "MIP",
+      "number": 15,
+      "title": "Glamsterdam EIP Activation",
+      "status": "Review",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-15"
+    },
+    {
+      "kind": "MIP",
+      "number": 16,
+      "title": "JSON-RPC Query Methods",
+      "status": "Draft",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-16"
+    },
+    {
+      "kind": "MRC",
+      "number": 17,
+      "title": "PropAMM Router Interface",
+      "status": "Draft",
+      "specUrl": "https://mips.monad.xyz/MRCs/MRC-17"
+    },
+    {
+      "kind": "MIP",
+      "number": 18,
+      "title": "Call Stack Introspection Opcodes",
+      "status": "Review",
+      "specUrl": "https://mips.monad.xyz/MIPs/MIP-18"
+    }
+  ]
+}

@@ -15,9 +15,19 @@ const en = {
     aboutNote:
       "MIP Land is an independent, community-maintained educational project. Always use the published MIP specification as the authoritative source.",
     browseSpecs: "Browse the canonical MIP specifications",
-    proposals: "Proposals",
-    research: "Research",
+    proposals: "Explainers",
+    others: "Others",
     explore: "Explore",
+    index: {
+      title: "All proposals",
+      mips: "MIPs",
+      mrcs: "MRCs",
+      mrcNote:
+        "MRCs are application standards, such as registries and interfaces. They don't change the protocol.",
+      explainer: "Explainer",
+      spec: "Spec",
+      sourceNote: "Statuses refresh daily from monad-crypto/MIPs. Canonical list:",
+    },
     mip8: {
       title: "Page-ified Storage",
       subtitle: "Pricing EVM storage by the 4 KB page",
