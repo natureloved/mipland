@@ -8,6 +8,8 @@ const FORUM_URLS: Record<string, string> = {
   "/mip-3": "https://forum.monad.xyz/t/mip-3-linear-evm-memory-cost/362",
   "/mip-4": "https://forum.monad.xyz/t/mip-4-reserve-balance-introspection/363",
   "/mip-7": "https://forum.monad.xyz/t/mip-7-extension-opcodes/387",
+  "/mip-11":
+    "https://forum.monad.xyz/t/mip-11-automatic-priority-fee-distribution/419",
   "/mip-12": "https://forum.monad.xyz/t/mip-12-decrease-vote-pace/488",
   "/mip-15": "https://forum.monad.xyz/t/mip-15-glamsterdam-eip-activation/540",
   "/mip-18":

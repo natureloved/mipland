@@ -26,6 +26,12 @@
       "reviewedBlobSha": "629bb7801f246643634e0c9c267816135134190d"
     },
     {
+      "slug": "mip-11",
+      "path": "MIPs/MIP-11.md",
+      "reviewedCommit": "282d18125d6590447d9229550887581385649e48",
+      "reviewedBlobSha": "8dfeb320fe83d5c9c94ba546993b81258cd3d7d4"
+    },
+    {
       "slug": "mip-12",
       "path": "MIPs/MIP-12.md",
       "reviewedCommit": "282d18125d6590447d9229550887581385649e48",

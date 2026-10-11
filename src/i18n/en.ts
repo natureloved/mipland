@@ -701,6 +701,94 @@ const en = {
         "No selector is assigned yet. MIP-18, also in Review, proposes 0x00 and 0x01 for CALLSTACKDEPTH and CALLERN. Each future Monad feature claims its own selector via a new MIP. The encoding format never changes; only the dispatch table grows.",
     },
   },
+  mip11: {
+    hero: {
+      title: "Priority fees for delegators",
+      today: "Today",
+      withMip: "With MIP-11",
+      fees: "priority fees",
+      beneficiary: "validator's beneficiary",
+      pool: "validator's staking pool",
+      desc: "MIP-11 is a Draft and is not active on any network. Validators can already share priority fees with delegators, but most don't. MIP-11 makes the protocol do it at the end of every block.",
+    },
+    flow: {
+      title: "Where one block's priority fees go",
+      subtitle: "Three transactions pay priority fees in a block led by your validator.",
+      todayTab: "Today",
+      mip11Tab: "With MIP-11",
+      block: "Block",
+      todayCoinbase: "Credited to the beneficiary (block.coinbase)",
+      todayManual: "Optional: the validator calls externalReward by hand, pays gas, sends at least 1 MON",
+      todayPool: "Staking pool",
+      usuallyZero: "usually nothing",
+      mipAccount: "Collected in the distribution account",
+      mipSyscall: "End of block: the protocol calls external_rewards for the validator that led the block",
+      mipPool: "Staking pool, split by stake",
+      mipCoinbase: "Beneficiary balance from priority fees",
+      todayNote:
+        "The spec says most validators don't run the extra tooling to forward fees, so delegators usually get none of them.",
+      mip11Note:
+        "block.coinbase still returns the beneficiary the proposer set. It just stops receiving the priority fees. No transaction can call the distribution step.",
+    },
+    share: {
+      title: "What a delegator would get",
+      subtitle:
+        "Your cut of one block's priority fees, for a block your validator leads. Fee presets come from 200 sampled mainnet blocks.",
+      fees: "Priority fees in the block",
+      median: "median",
+      mean: "mean",
+      max: "max",
+      stake: "Your share of the validator's stake",
+      commission: "Validator commission",
+      today: "Today (validator doesn't forward fees)",
+      withMip: "With MIP-11",
+      noCommission: "If no commission is taken",
+      withCommission: "If commission is taken",
+      blockReward: "For comparison: your share of the 18 MON block reward",
+      note: "The spec says external_rewards will be changed so that it \u201cremoves the commission fee\u201d but doesn't say which way. Today externalReward takes no commission. Both readings are shown. Assumes the fees clear the minimum amount below.",
+    },
+    threshold: {
+      title: "The minimum amount decides how much is burned",
+      subtitle:
+        "The spec says fees under dust_threshold are burned instead of distributed. The staking docs have two different minimums that could be meant. Pick one to see what it does to real blocks.",
+      gweiName: "1 gwei (DUST_THRESHOLD)",
+      monName: "1 MON (externalReward minimum today)",
+      chartTitle: "Sampled blocks by total priority fees",
+      axis: "priority fees per block, MON",
+      blocks: "blocks",
+      burned: "burned",
+      blocksBurned: "Blocks with fees burned",
+      feesBurned: "Share of priority fees burned",
+      gweiDesc:
+        "DUST_THRESHOLD is the smallest allowed delegation, 1 gwei. Every sampled block clears it.",
+      monDesc:
+        "externalReward rejects anything under 1 MON today. If that minimum carries over, almost every block's fees are burned.",
+      sample:
+        "{count} blocks, every 1,440th from {from} to {to}, about one day ending {date}. Fees summed as gas limit times effective priority fee, since Monad charges the gas limit.",
+    },
+    affected: {
+      title: "Who this affects",
+      delegatorsTitle: "Delegators",
+      delegatorsDesc:
+        "Get a share of priority fees by stake, credited like other rewards. On the sampled day fees averaged 0.13 MON per block, about 0.7% of the 18 MON block reward.",
+      validatorsTitle: "Validators",
+      validatorsDesc:
+        "Stop keeping priority fees on the beneficiary address. In the forum thread, one reply asked whether losing priority fees will push commissions up to cover operating costs. The thread author replied that validators can adjust their commission.",
+      coinbaseTitle: "Contracts and bots that watch block.coinbase",
+      coinbaseDesc:
+        "block.coinbase still returns the beneficiary, but its balance no longer grows by the block's priority fees. Anything that reads that balance to track fees has to change.",
+      wrappersTitle: "Delegation contracts",
+      wrappersDesc:
+        "Liquid staking and other wrappers that share priority fees themselves get diluted if users stake with the validator pool directly, since the pool now receives the fees too.",
+      openTitle: "What the spec leaves open",
+      q1Title: "Which minimum applies.",
+      q1Desc:
+        "dust_threshold could mean the 1 gwei delegation minimum or the 1 MON externalReward minimum. In the sample that is the difference between burning none of the fees and burning 76% of them.",
+      q2Title: "Whether commission is taken.",
+      q2Desc:
+        "The spec says external_rewards will be changed so it \u201cremoves the commission fee.\u201d That can be read as starting to deduct commission or as continuing not to.",
+    },
+  },
   mip12: {
     hero: {
       title: "Shorter target cadence.",
@@ -1070,6 +1158,8 @@ const en = {
       "MIP-7 aligns with EIP-8163, which reserves 0xAE on Ethereum L1 for non-L1 extension use. No selector is assigned yet. MIP-18 (in Review) proposes 0x00 and 0x01; future MIPs will claim other slots.",
     mip12Note:
       "MIP-12 is Final. Its target vote pace changed from 400ms to 300ms and activated on Monad mainnet at round 89,758,000 (July 23, 2026, about 14:30 UTC). Verified against the pinned specification and official release notes on October 4, 2026. Target cadence does not guarantee observed latency or finality.",
+    mip11Note:
+      "MIP-11 is a Draft and is not active on any network. Verified against the specification, the official release notes and the staking API reference on October 11, 2026.",
     mip12ActivationSource: "Official activation evidence (release notes)",
     mip15Note:
       "MIP-15 is in Review and is not active on any network. Verified against the specification and the official release notes on October 10, 2026.",

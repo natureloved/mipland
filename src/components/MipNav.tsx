@@ -10,6 +10,7 @@ const TABS = [
   { name: "MIP-3", href: "/mip-3", ready: true },
   { name: "MIP-4", href: "/mip-4", ready: true },
   { name: "MIP-7", href: "/mip-7", ready: true },
+  { name: "MIP-11", href: "/mip-11", ready: true },
   { name: "MIP-12", href: "/mip-12", ready: true },
   { name: "MIP-15", href: "/mip-15", ready: true },
   { name: "MIP-18", href: "/mip-18", ready: true },

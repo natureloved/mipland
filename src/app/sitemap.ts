@@ -12,6 +12,7 @@ const INDEXABLE_ROUTES = [
   "/mip-4",
   "/mip-7",
   "/mip-8",
+  "/mip-11",
   "/mip-12",
   "/mip-15",
   "/mip-18",

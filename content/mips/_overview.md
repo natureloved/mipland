@@ -16,6 +16,10 @@ notes, and a path to activation.
 - **MIP-8 — Page-ified Storage.** Aligns EVM storage layout with the underlying
   hardware page boundary, reducing I/O amplification on commits. Final and
   active on Monad mainnet since the MONAD_TEN upgrade on September 2, 2026.
+- **MIP-11: Automatic Priority Fee Distribution.** Draft, not active on any
+  network. Sends each block's priority fees to the leading validator's staking
+  pool instead of its beneficiary address. The spec leaves the minimum amount
+  and commission handling unclear; see `mip-11.md`.
 - **MIP-12 — Decrease Block Time.** Final; its 400ms to 300ms target vote pace
   activated on Monad mainnet at round 89,758,000 (July 23, 2026). Per-block
   transaction, gas, and byte limits fell 25%; the block reward fell from 25 to

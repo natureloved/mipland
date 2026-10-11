@@ -29,6 +29,12 @@ const FOOTER_DATA: Record<string, {
     specLabel: "MIP-7 on GitHub",
     noteKey: "footer.mip7Note",
   },
+  "/mip-11": {
+    specUrl:
+      "https://github.com/monad-crypto/MIPs/blob/282d18125d6590447d9229550887581385649e48/MIPs/MIP-11.md",
+    specLabel: "MIP-11 on GitHub",
+    noteKey: "footer.mip11Note",
+  },
   "/mip-12": {
     specUrl:
       "https://github.com/monad-crypto/MIPs/blob/2a7e18894f1e55fb043080cb8cef15c7f5647768/MIPs/MIP-12.md",

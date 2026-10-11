@@ -43,3 +43,14 @@ describe("MIP-18 knowledge bundle", () => {
     expect(bundle).toContain("`CALLERN(CALLSTACKDEPTH)` equals `ORIGIN`");
   });
 });
+
+describe("MIP-11 knowledge bundle", () => {
+  it("includes MIP-11 with its Draft status and the open minimum-amount question", async () => {
+    const bundle = await getKnowledgeBundle();
+
+    expect(bundle).toContain("<!-- file: mip-11.md -->");
+    expect(bundle).toContain("# MIP-11: Automatic Priority Fee Distribution");
+    expect(bundle).toContain("MIP-11: Automatic Priority Fee Distribution.** Draft");
+    expect(bundle).toContain("The spec does not say which one applies");
+  });
+});

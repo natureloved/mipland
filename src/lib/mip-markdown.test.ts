@@ -15,6 +15,7 @@ import { GET as llmsTxtRoute } from "@/app/llms.txt/route";
 import { GET as mip3MarkdownRoute } from "@/app/mip-3.md/route";
 import { GET as mip7MarkdownRoute } from "@/app/mip-7.md/route";
 import { GET as mip12MarkdownRoute } from "@/app/mip-12.md/route";
+import { GET as mip11MarkdownRoute } from "@/app/mip-11.md/route";
 import { GET as mip15MarkdownRoute } from "@/app/mip-15.md/route";
 import { GET as mip18MarkdownRoute } from "@/app/mip-18.md/route";
 import {
@@ -94,6 +95,17 @@ describe(".md route handlers", () => {
     }
     expect(body).toContain("800 gas per address and 1,280 gas per storage key");
     expect(body).toContain("EIP-7928, Block-Level Access Lists");
+    expect(body).toContain("282d18125d6590447d9229550887581385649e48");
+  });
+
+  it("mip-11.md serves Draft status, the distribution account, and both minimums", async () => {
+    const body = await (await mip11MarkdownRoute()).text();
+
+    expect(body).toContain("**Proposal status:** Draft");
+    expect(body).toContain("Not activated on any network");
+    expect(body).toContain("0xfee5fee5fee5fee5fee5fee5fee5fee5fee5fee5");
+    expect(body).toContain("1 gwei (1e9 wei)");
+    expect(body).toContain("197 of 200 blocks had less than 1 MON");
     expect(body).toContain("282d18125d6590447d9229550887581385649e48");
   });
 
