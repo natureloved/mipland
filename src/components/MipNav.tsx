@@ -12,12 +12,6 @@ const TABS = [
   { name: "MIP-7", href: "/mip-7", ready: true },
   { name: "MIP-12", href: "/mip-12", ready: true },
   { name: "MIP-15", href: "/mip-15", ready: true },
-  {
-    name: "Clear Signing",
-    labelKey: "nav.clearSigning",
-    href: "/clear-signing",
-    ready: true,
-  },
 ];
 
 export default function MipNav() {
@@ -63,7 +57,7 @@ export default function MipNav() {
                       : "text-text-tertiary cursor-default"
                   }`}
                 >
-                  {tab.labelKey ? t(tab.labelKey) : tab.name}
+                  {tab.name}
                   {!tab.ready && (
                     <span className="ml-1.5 text-[10px] opacity-50">{t("nav.soon")}</span>
                   )}
