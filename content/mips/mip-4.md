@@ -6,8 +6,9 @@
 
 **Verified:** October 11, 2026, against the [canonical MIP-4 specification](https://github.com/monad-crypto/MIPs/blob/282d18125d6590447d9229550887581385649e48/MIPs/MIP-4.md) and the [official v0.13.0 release notes](https://docs.monad.xyz/developer-essentials/changelog/releases#v0-13-0-monad_nine).
 
-**Summary:** Lets the protocol detect reserve balance violations mid-execution
-rather than only at the end of a transaction.
+**Summary:** Adds a precompile at `0x1001` that lets a contract check
+mid-execution whether the transaction would fail Monad's reserve balance check,
+which the protocol otherwise runs only after execution.
 
 ## Motivation
 

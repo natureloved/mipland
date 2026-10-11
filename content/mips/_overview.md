@@ -7,20 +7,25 @@ notes, and a path to activation.
 
 ## Currently live on mipland.org
 
-- **MIP-3 — Linear Memory.** Replaces the EVM's quadratic memory-expansion cost
-  with a linear model, so large memory regions become predictable to price.
-- **MIP-4 — Reserve Balance Introspection.** Lets the protocol detect reserve
-  balance violations mid-execution rather than only at the end of a transaction.
-- **MIP-7 — Extension Opcodes.** In Review, not active on any network. Reserves a namespace in the opcode space so
-  new opcodes can be added safely without colliding with future EIPs.
-- **MIP-8 — Page-ified Storage.** Aligns EVM storage layout with the underlying
-  hardware page boundary, reducing I/O amplification on commits. Final and
-  active on Monad mainnet since the MONAD_TEN upgrade on September 2, 2026.
+- **MIP-3: Linear Memory.** Final, active on Monad mainnet since the
+  MONAD_NINE upgrade on March 19, 2026. Replaces the EVM's quadratic
+  memory-expansion cost with a linear one, and caps memory at 8 MB per
+  transaction, shared across call frames; see `mip-3.md`.
+- **MIP-4: Reserve Balance Introspection.** Final, active on Monad mainnet
+  since MONAD_NINE on March 19, 2026. Adds a precompile at `0x1001` that lets a
+  contract check mid-execution whether the transaction would fail the reserve
+  balance check; see `mip-4.md`.
+- **MIP-7: Extension Opcodes.** In Review, not active on any network. Reserves
+  opcode `0xAE` as a prefix for Monad-specific opcodes, so they can't collide
+  with future Ethereum opcodes; see `mip-7.md`.
+- **MIP-8: Page-ified Storage.** Final, active on Monad mainnet since the
+  MONAD_TEN upgrade on September 2, 2026. Groups 128 storage slots into 4 KB
+  pages and charges cold access per page instead of per slot; see `mip-8.md`.
 - **MIP-11: Automatic Priority Fee Distribution.** Draft, not active on any
   network. Sends each block's priority fees to the leading validator's staking
   pool instead of its beneficiary address. The spec leaves the minimum amount
   and commission handling unclear; see `mip-11.md`.
-- **MIP-12 — Decrease Block Time.** Final; its 400ms to 300ms target vote pace
+- **MIP-12: Decrease Block Time.** Final; its 400ms to 300ms target vote pace
   activated on Monad mainnet at round 89,758,000 (July 23, 2026). Per-block
   transaction, gas, and byte limits fell 25%; the block reward fell from 25 to
   18 MON (28%). At the nominal cadence, capacity limits per second stay the
@@ -34,6 +39,6 @@ notes, and a path to activation.
   network. Adds `CALLSTACKDEPTH` (`0xAE 0x00`) and `CALLERN` (`0xAE 0x01`)
   under MIP-7's extension prefix, 2 gas each; see `mip-18.md`.
 
-> TODO(author): paste the canonical one-paragraph summary for each MIP here.
-> Anything below this line in this file is treated as authoritative context by
-> the chat widget — keep it accurate and short.
+Other proposals in the monad-crypto/MIPs repository have no explainer on
+mipland.org yet. The home page lists every MIP and MRC with its current
+status.

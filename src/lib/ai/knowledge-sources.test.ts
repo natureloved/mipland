@@ -17,7 +17,14 @@ describe("MIP knowledge sources", () => {
       expect(body, name).toMatch(/^## Sources$/m);
       // The canonical spec link is pinned to a commit, not a moving branch.
       expect(body, name).toMatch(/github\.com\/monad-crypto\/MIPs\/blob\/[0-9a-f]{40}\/MIPs\/MIP-\d+\.md/);
-      expect(body, name).not.toContain("TODO(author)\n**Summary");
+    }
+  });
+
+  it("ships no placeholder text to the chat prompt", async () => {
+    const files = (await readdir(CONTENT_DIR)).filter((name) => name.endsWith(".md"));
+    for (const name of files) {
+      const body = await readFile(join(CONTENT_DIR, name), "utf8");
+      expect(body, name).not.toMatch(/TODO/);
     }
   });
 });
