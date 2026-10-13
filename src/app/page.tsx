@@ -9,7 +9,7 @@ export const revalidate = 86400;
 export const metadata: Metadata = {
   title: "Monad Improvement Proposals (MIPs), Explained | MIP Land",
   description:
-    "Explore interactive, plain-language explainers for Monad Improvement Proposals, including MIP-3, MIP-4, MIP-7, MIP-8, MIP-10, MIP-11, MIP-12, MIP-15, and MIP-18.",
+    "Explore interactive, plain-language explainers for Monad Improvement Proposals, including MIP-3, MIP-4, MIP-7, MIP-8, MIP-10, MIP-11, MIP-12, MIP-15, MIP-16, and MIP-18.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "Monad Improvement Proposals (MIPs), Explained | MIP Land",
@@ -56,6 +56,7 @@ const structuredData = {
           ["MIP-11: Automatic Priority Fee Distribution", "/mip-11"],
           ["MIP-12: Decrease Block Time", "/mip-12"],
           ["MIP-15: Glamsterdam EIP Activation", "/mip-15"],
+          ["MIP-16: JSON-RPC Query Methods", "/mip-16"],
           ["MIP-18: Call Stack Introspection Opcodes", "/mip-18"],
         ].map(([name, path], index) => ({
           "@type": "ListItem",

@@ -1205,6 +1205,205 @@ const en = {
         "The spec gives no use case beyond future Monad upgrades in development at Category Labs. Until those are published, the page can show what the opcodes return, but not which feature needs them.",
     },
   },
+  mip16: {
+    hero: {
+      title: "Query chain history in pages",
+      methodsValue: "5 methods",
+      methodsDesc: "eth_queryBlocks, Transactions, Logs, Traces and Transfers.",
+      joinValue: "1 request",
+      joinDesc: "for logs plus their transactions and blocks. Each related object comes back once.",
+      pageValue: "Whole blocks",
+      pageDesc: "per page. A page never ends halfway through a block.",
+      desc: "MIP-16 is a Draft. It adds five JSON-RPC methods for reading chain history with server-side filters, field selection and joins. No Monad client release serves them yet: the public RPC answers eth_queryLogs with -32601, method not found.",
+    },
+    problem: {
+      title: "What takes many calls today",
+      subtitle:
+        "The spec names four gaps in the standard JSON-RPC interface. The numbers below come from a made-up range of 1,000 blocks.",
+      today: "Today",
+      withMip: "With MIP-16",
+      calls: "calls",
+      tasks: {
+        filter: "Filter transactions",
+        join: "Join related objects",
+        fields: "Pick fields",
+        paging: "Paginate",
+      },
+      filter: {
+        goal: "Every transaction sent to one contract.",
+        today:
+          "eth_getBlockByNumber with full transactions, once per block, then filter on the client. There is no transaction filter.",
+        todayCount: "1,000",
+        mip: "eth_queryTransactions with filter.to set to the contract.",
+        mipCount: "1",
+      },
+      join: {
+        goal: "240 Transfer logs, plus each one's transaction input and block timestamp. They sit in 180 transactions across 150 blocks.",
+        today:
+          "eth_getLogs, then eth_getTransactionByHash for each of the 180 transactions and eth_getBlockByNumber for each of the 150 blocks.",
+        todayCount: "331+",
+        mip: "eth_queryLogs with fields for logs, transactions and blocks.",
+        mipCount: "1",
+      },
+      fields: {
+        goal: "The number and timestamp of every block.",
+        today:
+          "eth_getBlockByNumber returns every header field, including the 256-byte logsBloom, and the list of transaction hashes. You keep two fields.",
+        todayCount: "1,000",
+        mip: 'eth_queryBlocks with fields set to {"blocks": ["number", "timestamp"]}.',
+        mipCount: "1",
+      },
+      paging: {
+        goal: "All logs from a busy contract since genesis.",
+        today:
+          "eth_getLogs over a large range can time out or hit a provider limit. The client shrinks the range and retries, and there is no range query at all for blocks, transactions or traces.",
+        todayCount: "?",
+        mip: "Any of the five methods returns a page that ends on a block boundary and says where it stopped. The client asks again from the next block.",
+        mipCount: "1 per page",
+      },
+      countNote:
+        "Counts assume each MIP-16 query fits in one page. Today's counts assume eth_getLogs covers the range in one call; many providers cap the range, which adds calls.",
+    },
+    builder: {
+      title: "Build a request",
+      subtitle:
+        "All five methods take the same request shape. Pick a method, then toggle the filter and the joins. The response is computed from a small sample chain of three blocks.",
+      method: "Method",
+      filter: "Filter",
+      join: "Join",
+      order: "Order",
+      request: "Request",
+      response: "Response",
+      referencedBy: "referenced",
+      times: "×",
+      once: "listed once",
+      unsupported: "-32602 Invalid params",
+      unsupportedDesc:
+        "eth_queryBlocks has no relations. A fields key that names a relation the method doesn't support is rejected.",
+      sampleNote:
+        "Addresses and the Transfer topic are shown as names, and the calldata is shortened. The cursor fields (fromBlock, toBlock, cursorBlock) are left out here; the next section covers them.",
+      normalizedNote:
+        "Related objects come back in their own arrays, each one once, and only if a primary object in the response points to it. Join them on blockNumber and transactionHash, so select those fields on both sides.",
+      filters: {
+        blocks: 'miner: "validatorA"',
+        transactions: 'to: "usdc"',
+        logs: 'address: "usdc", topics: [Transfer]',
+        traces: 'to: "usdc"',
+        transfers: 'from: "router"',
+      },
+      notes: {
+        blocks: "Blocks can be filtered by miner. That's the only filter.",
+        transactions: "Transactions can be filtered by from, to and the 4-byte selector.",
+        logs: "Logs use the same address and positional topics filter as eth_getLogs.",
+        traces:
+          "This filter also catches the internal call from pool to usdc in block 101. eth_getLogs can't see internal calls, and today there's no standard trace range query.",
+        transfers:
+          "A transfer is any call frame with value above 0. Both matches here are internal calls made by the router.",
+      },
+    },
+    paging: {
+      title: "Pages end on block boundaries",
+      subtitle:
+        "The spec's example: blocks 10 to 20, target 100. Each bar is one block, sized by how many objects match in it. Step through the pages.",
+      target: "Target",
+      budget: "Server budget",
+      none: "none",
+      objects: "objects",
+      order: "Order",
+      next: "Request next page",
+      reset: "Reset",
+      done: "Done: cursorBlock equals toBlock.",
+      page: "Page",
+      returned: "returned",
+      cursor: "cursorBlock",
+      ends: {
+        range: "Range end: the scan reached toBlock.",
+        target:
+          "Target reached. The whole final block is included, so a page can hold more than the target.",
+        budget:
+          "Budget reached partway through the next block. That block's partial results are dropped and the page ends one block earlier.",
+      },
+      error:
+        "-32005 Limit exceeded. The budget ran out inside fromBlock, so no block-aligned page exists. Once a server finishes at least one block, it must return the page instead of failing.",
+      lessThanTarget:
+        "Fewer objects than the target, and the query isn't finished. Only cursorBlock tells you whether more remains.",
+      budgetNote:
+        "The budget is whatever bound the server puts on one response: time, size or object count. It's modeled here as an object count.",
+      rule: "To continue, repeat the request with only fromBlock changed: cursorBlock + 1 going up, cursorBlock - 1 going down. Pages never split a block, so nothing is repeated or skipped.",
+    },
+    reorg: {
+      title: "Spotting a reorg between pages",
+      subtitle:
+        "Every response carries fromBlock, toBlock and cursorBlock as number, hash and parent hash. A client paging toward the tip compares them.",
+      steps: {
+        page1: "Page 1",
+        page2: "Page 2",
+        recover: "Recover",
+      },
+      reorgToggle: "Reorg replaces blocks 103 and 104 before page 2",
+      stored: "Stored by the client",
+      canonical: "Chain (hash, parent)",
+      finalized: "finalized",
+      height: "Block",
+      hash: "hash",
+      parent: "parent",
+      match: "match",
+      mismatch: "mismatch",
+      page1Desc:
+        "Page 1 covers blocks 100 to 104. The client stores the number and hash of every block it processes from the finalized block onward.",
+      page2Ok:
+        "Page 2's fromBlock (105) has a parentHash equal to page 1's cursorBlock hash. The chain is unchanged, so the client appends page 2.",
+      page2Bad:
+        "Page 2's fromBlock (105) has a parentHash that doesn't equal page 1's cursorBlock hash. Some stored block was replaced. The client stops appending.",
+      recoverDesc:
+        "The client calls eth_queryBlocks with order desc, fromBlock \"latest\", toBlock set to its oldest stored block, and fields number and hash. Walking newest to oldest, the first stored hash that still matches is the recovery point.",
+      recoveryPoint: "Recovery point",
+      discard: "Discard stored data above block {n} and resume paging from block {m}.",
+      noRecover: "No reorg, so there is nothing to recover.",
+      finalNote:
+        "A finalized block can't be replaced, so storing references back to it means one always matches. Within one response, every object comes from the same chain.",
+    },
+    errors: {
+      title: "Which error, when",
+      subtitle: "Five codes mark the boundaries. The first two tell a client whether to look for another node.",
+      rows: {
+        e32601: "The node's software predates MIP-16. This is what Monad's public RPC returns today.",
+        e32004:
+          "The node knows the method but isn't set up to serve it. A node that doesn't index traces returns this for eth_queryTraces and eth_queryTransfers.",
+        e32602:
+          "Malformed request: an unknown fields key, a bad filter, an unsupported relation, a target of 0x0, or a range that runs the wrong way for the order.",
+        e32001:
+          "Part of the range is outside what this node holds for this method: pruned, never indexed, or not produced yet. The node must fail instead of returning part of the range.",
+        e32005: "The server's budget ran out before it finished fromBlock.",
+      },
+      names: {
+        e32601: "Method not found",
+        e32004: "Method not supported",
+        e32602: "Invalid params",
+        e32001: "Resource not found",
+        e32005: "Limit exceeded",
+      },
+      windowNote:
+        "Each method has its own availability window on a node. A node can keep every block back to genesis and only recent traces.",
+    },
+    takeaways: {
+      title: "Who this affects",
+      card1Who: "Indexers and data pipelines",
+      card1Title: "Fewer calls, simpler backfills",
+      card1Desc:
+        "Server-side filters cover transactions, traces and native transfers. Joins replace the N+1 lookups, and block-aligned pages with block hashes give a cursor and reorg detection without extra requests.",
+      card2Who: "Node operators and RPC providers",
+      card2Title: "New indexes and request limits",
+      card2Desc:
+        "Serving these methods needs indexed history, and a node may offer only some of them. The spec expects limits on response size or execution time plus rate limits and per-key quotas, since joins and field selection change the worst-case cost of a request.",
+      card3Who: "App developers",
+      card3Title: "Nothing changes until a node serves them",
+      card3Desc:
+        "These are five new methods in the eth_ namespace. No existing method changes, and the spec describes nothing Monad-specific, so other EVM chains could adopt them.",
+      openQuestion:
+        "MIP-16 is a Draft. An open pull request (monad-crypto/MIPs #89) would move it to Review and change some details: \"all\" instead of true to select every field, an includeReverted filter instead of isTopLevel for traces and transfers, a reverted field on traces, and DELEGATECALL and CALLCODE frames no longer counting as transfers. The block-aligned pages, joins and error codes shown here are the same in both versions. On the client side, a monad-bft pull request (#2945) that starts the indexing backend is open.",
+    },
+  },
   clearSigning: {
     hero: {
       title: "Clear Signing on Monad",
@@ -1336,6 +1535,8 @@ const en = {
     mip10RolloutSource: "Rollout in the release notes (v0.16.2)",
     mip15Note:
       "MIP-15 is in Review and is not active on any network. Verified against the specification and the official release notes on October 10, 2026.",
+    mip16Note:
+      "MIP-16 is a Draft. No Monad client release serves these methods: rpc.monad.xyz and testnet-rpc.monad.xyz answer -32601. Verified against the specification, the official release notes and the public RPC on October 13, 2026.",
     mip18Note:
       "MIP-18 is in Review and is not active on any network. It needs MIP-7, which is also in Review. Verified against the specification and the official release notes on October 11, 2026.",
   },

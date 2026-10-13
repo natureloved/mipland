@@ -15,6 +15,7 @@ export const MARKDOWN_MIP_SLUGS = [
   "mip-11",
   "mip-12",
   "mip-15",
+  "mip-16",
   "mip-18",
 ] as const;
 

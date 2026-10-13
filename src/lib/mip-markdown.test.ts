@@ -18,6 +18,7 @@ import { GET as mip10MarkdownRoute } from "@/app/mip-10.md/route";
 import { GET as mip12MarkdownRoute } from "@/app/mip-12.md/route";
 import { GET as mip11MarkdownRoute } from "@/app/mip-11.md/route";
 import { GET as mip15MarkdownRoute } from "@/app/mip-15.md/route";
+import { GET as mip16MarkdownRoute } from "@/app/mip-16.md/route";
 import { GET as mip18MarkdownRoute } from "@/app/mip-18.md/route";
 import {
   buildHomeMarkdown,
@@ -116,6 +117,15 @@ describe(".md route handlers", () => {
     expect(body).toContain("**Proposal status:** Draft");
     expect(body).toContain("stage 3 of the spec's four-stage rollout");
     expect(body).toContain("LE64(floor(unix_ts_ms / 2048))");
+    expect(body).toContain("5abe8ccd319828dfc999877f14af93012ee75f6f");
+  });
+
+  it("mip-16.md serves status, the pagination rule, and the pinned spec", async () => {
+    const body = await (await mip16MarkdownRoute()).text();
+
+    expect(body).toContain("**Proposal status:** Draft");
+    expect(body).toContain("`cursorBlock + 1` in `asc`");
+    expect(body).toContain("-32005");
     expect(body).toContain("5abe8ccd319828dfc999877f14af93012ee75f6f");
   });
 

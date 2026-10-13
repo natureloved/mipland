@@ -13,6 +13,7 @@ const FORUM_URLS: Record<string, string> = {
     "https://forum.monad.xyz/t/mip-11-automatic-priority-fee-distribution/419",
   "/mip-12": "https://forum.monad.xyz/t/mip-12-decrease-vote-pace/488",
   "/mip-15": "https://forum.monad.xyz/t/mip-15-glamsterdam-eip-activation/540",
+  "/mip-16": "https://forum.monad.xyz/t/mip-16-json-rpc-query-methods/546",
   "/mip-18":
     "https://forum.monad.xyz/t/mip-18-callstackdepth-and-callern-call-stack-introspection-opcodes/556",
 };

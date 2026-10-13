@@ -14,6 +14,7 @@ const TABS = [
   { name: "MIP-11", href: "/mip-11", ready: true },
   { name: "MIP-12", href: "/mip-12", ready: true },
   { name: "MIP-15", href: "/mip-15", ready: true },
+  { name: "MIP-16", href: "/mip-16", ready: true },
   { name: "MIP-18", href: "/mip-18", ready: true },
 ];
 

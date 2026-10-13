@@ -65,3 +65,14 @@ describe("MIP-10 knowledge bundle", () => {
     expect(bundle).toContain("Accept both, publish v1. Shipped in v0.16.2");
   });
 });
+
+describe("MIP-16 knowledge bundle", () => {
+  it("includes MIP-16 with its Draft status and no client release", async () => {
+    const bundle = await getKnowledgeBundle();
+
+    expect(bundle).toContain("<!-- file: mip-16.md -->");
+    expect(bundle).toContain("# MIP-16: JSON-RPC Query Methods");
+    expect(bundle).toContain("MIP-16: JSON-RPC Query Methods.** Draft, not served");
+    expect(bundle).toContain("Not served by any Monad client release");
+  });
+});

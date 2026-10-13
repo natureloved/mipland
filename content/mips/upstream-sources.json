@@ -50,6 +50,12 @@
       "reviewedBlobSha": "817bef9f5a56565b6fb8c0090ef7a16f44026262"
     },
     {
+      "slug": "mip-16",
+      "path": "MIPs/MIP-16.md",
+      "reviewedCommit": "5abe8ccd319828dfc999877f14af93012ee75f6f",
+      "reviewedBlobSha": "4102bbde14a49e8b456b173e43f83940b5de9c4a"
+    },
+    {
       "slug": "mip-18",
       "path": "MIPs/MIP-18.md",
       "reviewedCommit": "282d18125d6590447d9229550887581385649e48",
