@@ -54,3 +54,14 @@ describe("MIP-11 knowledge bundle", () => {
     expect(bundle).toContain("The spec does not say which one applies");
   });
 });
+
+describe("MIP-10 knowledge bundle", () => {
+  it("includes MIP-10 with its Draft status and stage-3 rollout", async () => {
+    const bundle = await getKnowledgeBundle();
+
+    expect(bundle).toContain("<!-- file: mip-10.md -->");
+    expect(bundle).toContain("# MIP-10: Deterministic RaptorCast");
+    expect(bundle).toContain("MIP-10: Deterministic RaptorCast.** Draft, rolling out");
+    expect(bundle).toContain("Accept both, publish v1. Shipped in v0.16.2");
+  });
+});

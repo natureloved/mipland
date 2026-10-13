@@ -8,6 +8,7 @@ const FOOTER_DATA: Record<string, {
   specLabel: string;
   noteKey: string;
   activationUrl?: string;
+  activationLabelKey?: string;
 }> = {
   "/mip-8": {
     specUrl: "https://github.com/monad-crypto/MIPs/blob/main/MIPs/MIP-8.md",
@@ -28,6 +29,15 @@ const FOOTER_DATA: Record<string, {
     specUrl: "https://github.com/monad-crypto/MIPs/blob/main/MIPs/MIP-7.md",
     specLabel: "MIP-7 on GitHub",
     noteKey: "footer.mip7Note",
+  },
+  "/mip-10": {
+    specUrl:
+      "https://github.com/monad-crypto/MIPs/blob/5abe8ccd319828dfc999877f14af93012ee75f6f/MIPs/MIP-10.md",
+    specLabel: "MIP-10 on GitHub",
+    noteKey: "footer.mip10Note",
+    activationUrl:
+      "https://docs.monad.xyz/developer-essentials/changelog/releases#v0-16-2",
+    activationLabelKey: "footer.mip10RolloutSource",
   },
   "/mip-11": {
     specUrl:
@@ -85,7 +95,7 @@ export default function FooterSection() {
                 rel="noopener noreferrer"
                 className="mt-3 block text-sm text-surface/80 hover:text-surface transition-colors underline underline-offset-4 decoration-surface/20 hover:decoration-surface/60"
               >
-                {t("footer.mip12ActivationSource")} →
+                {t(data.activationLabelKey ?? "footer.mip12ActivationSource")} →
               </a>
             )}
           </div>

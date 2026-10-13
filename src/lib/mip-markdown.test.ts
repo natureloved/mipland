@@ -14,6 +14,7 @@ import { GET as indexMarkdownRoute } from "@/app/index.md/route";
 import { GET as llmsTxtRoute } from "@/app/llms.txt/route";
 import { GET as mip3MarkdownRoute } from "@/app/mip-3.md/route";
 import { GET as mip7MarkdownRoute } from "@/app/mip-7.md/route";
+import { GET as mip10MarkdownRoute } from "@/app/mip-10.md/route";
 import { GET as mip12MarkdownRoute } from "@/app/mip-12.md/route";
 import { GET as mip11MarkdownRoute } from "@/app/mip-11.md/route";
 import { GET as mip15MarkdownRoute } from "@/app/mip-15.md/route";
@@ -107,6 +108,15 @@ describe(".md route handlers", () => {
     expect(body).toContain("1 gwei (1e9 wei)");
     expect(body).toContain("197 of 200 blocks had less than 1 MON");
     expect(body).toContain("282d18125d6590447d9229550887581385649e48");
+  });
+
+  it("mip-10.md serves status, rollout stage, and the assignment seed", async () => {
+    const body = await (await mip10MarkdownRoute()).text();
+
+    expect(body).toContain("**Proposal status:** Draft");
+    expect(body).toContain("stage 3 of the spec's four-stage rollout");
+    expect(body).toContain("LE64(floor(unix_ts_ms / 2048))");
+    expect(body).toContain("5abe8ccd319828dfc999877f14af93012ee75f6f");
   });
 
   it("mip-18.md serves status, both selectors, and the authorization warning", async () => {

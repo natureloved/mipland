@@ -701,6 +701,176 @@ const en = {
         "No selector is assigned yet. MIP-18, also in Review, proposes 0x00 and 0x01 for CALLSTACKDEPTH and CALLERN. Each future Monad feature claims its own selector via a new MIP. The encoding format never changes; only the dispatch table grows.",
     },
   },
+  mip10: {
+    hero: {
+      title: "Who gets which piece of the block",
+      rootValue: "1 root",
+      rootDesc: "per proposal. v0 signs a separate root for every batch of up to 32 chunks.",
+      seedValue: "Public seed",
+      seedDesc: "Round, a 2,048 ms time bucket and the leader's key decide which validator gets each chunk.",
+      commitValue: "1 commitment",
+      commitDesc: "per round. A validator drops chunks that carry a different one.",
+      desc: "MIP-10 is a Draft from Category Labs. It changes how the round's leader (the spec calls it the author) splits a block proposal into chunks and sends them to the other validators. Since v0.16.2, Monad testnet and mainnet publish proposals in this format and still accept the old one.",
+    },
+    roots: {
+      title: "One root for the whole block",
+      subtitle:
+        "The same 70 chunks under each format. Chunk counts are illustrative.",
+      v0: "v0 (today's fallback)",
+      v1: "v1 (MIP-10)",
+      batch: "batch",
+      signedRoot: "signed root",
+      zeroLeaves: "zero leaves",
+      oneTree: "one tree, root in the signed header",
+      rowRoots: "Merkle roots",
+      rowSigs: "Signatures to check",
+      rowSigsV0: "3, one per batch",
+      rowSigsV1: "1 per header, cached across chunks",
+      rowLeaf: "Where chunk i sits in the tree",
+      rowLeafV0: "Wherever the leader puts it. The chunk carries its ESI and its leaf index separately.",
+      rowLeafV1: "Leaf i. The ESI is the leaf index.",
+      rowRecipient: "Who picks each chunk's first recipient",
+      rowRecipientV0: "The leader, written into each chunk. Nobody can check it.",
+      rowRecipientV1: "Derived from the seed. Not sent on the wire.",
+      rowEncodings: "Valid encodings of one block",
+      rowEncodingsV0: "More than one",
+      rowEncodingsV1: "Exactly one",
+      esiNote:
+        "ESI (encoding symbol ID) is the number of a Raptor-encoded symbol. Leaves past the last chunk hold 20 zero bytes, so the tree always has 2^(d-1) slots.",
+    },
+    assign: {
+      title: "Who gets which chunk",
+      subtitle:
+        "Eight validators plus the leader. Change the block size, the stakes or the timestamp. Every validator runs these steps and gets the same answer.",
+      blockSize: "Block size",
+      stakes: "Stakes",
+      equal: "Equal",
+      uneven: "Uneven",
+      round: "Round",
+      prevRound: "Previous round",
+      nextRound: "Next round",
+      timestamp: "Leader's timestamp",
+      vsClock: "vs. your clock",
+      bucket: "bucket",
+      depth: "depth",
+      slots: "leaf slots",
+      symbol: "bytes per symbol",
+      seed: "Seed",
+      seedRound: "round",
+      seedBucket: "time bucket",
+      seedKey: "leader key, bytes 1-16",
+      order: "Sorted by key, then shuffled",
+      stake: "stake",
+      chunks: "chunks",
+      tree: "Leaf slots, colored by first recipient",
+      padding: "zero leaf",
+      highlightHint: "Click a validator to highlight its chunks.",
+      obligationNote:
+        "Each validator gets ceil(stake × N / total stake) chunks. Rounding up is why n can exceed N by up to one chunk per validator, and why the depth leaves room for N + 8.",
+      dealNote:
+        "Chunks are dealt one at a time down the shuffled list, skipping validators that have their share.",
+      grindTitle: "What the leader can still choose",
+      grindDesc:
+        "The timestamp is the only input the leader controls, and validators drop it if it is more than 10 s from their clock. That allows 10 or 11 buckets, so at most 11 assignments. The leader can pick one of them but cannot place a chunk with a chosen validator.",
+      sameBucket:
+        "A timestamp change inside one bucket keeps the assignment. It still counts as a different commitment.",
+    },
+    sizing: {
+      title: "At full scale",
+      subtitle:
+        "The active set is capped at 200 validators. Pick a block size and a set size.",
+      blockSize: "Block size",
+      validators: "Validators",
+      depth: "Tree depth",
+      proof: "Proof per chunk",
+      symbol: "Block bytes per chunk",
+      chunks: "Chunks sent (equal stakes)",
+      upload: "Leader uploads",
+      kN: "K source symbols, N = ceil(2.5 × K)",
+      packetNote:
+        "Every packet is exactly 1,440 bytes: a 117-byte header, a 4-byte chunk header, the Merkle proof, and the symbol. A deeper tree means a longer proof and less block data per packet.",
+      maxNote: "monad-bft caps a proposal at 3 MiB.",
+      tooBig: "No depth up to 15 fits",
+    },
+    validate: {
+      title: "What a validator rejects",
+      subtitle:
+        "Pick a proposal. Each chunk goes through the per-chunk checks; the decoded block goes through one more.",
+      perChunk: "Per chunk",
+      perBlock: "After decoding",
+      pass: "pass",
+      fail: "fail",
+      na: "not reached",
+      checks: {
+        timeliness: "Timestamp within 10 s of local clock",
+        canonical: "Header in canonical form (depth, version, epoch, reserved bits)",
+        author: "Signed by the round's leader",
+        proof: "Merkle proof of leaf i verifies against the root",
+        commitment: "Same commitment as the first one seen this round",
+        index: "Chunk index below n",
+        reencode: "Re-encoding the block gives the same root",
+      },
+      scenarios: {
+        honest: "Honest proposal",
+        forged: "Signed by someone else",
+        stale: "Old timestamp",
+        depth: "Deeper tree than needed",
+        equivocate: "Two commitments in one round",
+        mixed: "Leaves from two blocks",
+      },
+      outcomes: {
+        honest: "Every chunk is accepted and the block decodes. Re-encoding it gives the committed root.",
+        forged:
+          "Chunks are dropped. A validator that doesn't yet know the round's leader also drops them.",
+        stale:
+          "Chunks are dropped. The 10 s window is the reference client's default and limits how far the leader can move the seed.",
+        depth:
+          "Chunks are dropped. The depth has to be the smallest one that fits, so the leader can't change the symbol size and produce a second encoding of the same block.",
+        equivocate:
+          "The validator keeps the first commitment it saw for the round and drops chunks under the second. The two signed headers together show that the leader committed twice. MIP-10 adds no penalty for this.",
+        mixed:
+          "Every chunk verifies against the root, but validators that collect different chunks could decode different blocks. Re-encoding catches it: the root doesn't match, and the validator treats the round as having no proposal.",
+      },
+    },
+    rollout: {
+      title: "Rollout in four stages",
+      subtitle:
+        "Each stage has to be fully adopted before the next one starts. Votes and timeouts stay on v0.",
+      stage: "Stage",
+      accepts: "accepts",
+      publishes: "publishes",
+      both: "v0 and v1",
+      current: "Monad today",
+      stage1Note: "The format before MIP-10.",
+      stage2Note: "v0.15.2, on testnet July 27, 2026. The release notes call this \"stage 1\".",
+      stage3Note: "v0.16.2, on testnet September 3 and mainnet September 10, 2026.",
+      stage4Note: "Not in any release yet.",
+      matrixTitle: "Can two nodes talk?",
+      matrixDesc:
+        "Nodes one stage apart work together. Two or more stages apart, one of them drops the other's proposals.",
+      yes: "yes",
+      no: "no",
+      pendingNote:
+        "Two spec rules, canonical depth and reserved bits (monad-bft #3247) and the commitment fix (#3248), merged on October 5, 2026 and are not in v0.16.2.",
+    },
+    takeaways: {
+      title: "Who this affects",
+      card1Who: "Validators and node operators",
+      card1Title: "Upgrade with each stage",
+      card1Desc:
+        "A node two stages behind the network can't read its proposals. Each decoded block is also re-encoded once to check the root.",
+      card2Who: "Apps and users",
+      card2Title: "Nothing to change",
+      card2Desc:
+        "MIP-10 changes how proposals travel between validators. Transactions, RPC, gas, consensus voting, the quorum certificate format and execution stay the same.",
+      card3Who: "Protocol work",
+      card3Title: "Groundwork for later changes",
+      card3Desc:
+        "One root per block would let validators vote after one verified chunk (a forthcoming MIP), let nodes sync old blocks as chunks from many peers, and turn two signed headers for one round into proof of equivocation. None of these are part of MIP-10.",
+      openQuestion:
+        "MIP-10 is still a Draft and can change. Secondary RaptorCast, which carries proposals on to full nodes, uses the same encoding, but its routing is outside this MIP.",
+    },
+  },
   mip11: {
     hero: {
       title: "Priority fees for delegators",
@@ -1161,6 +1331,9 @@ const en = {
     mip11Note:
       "MIP-11 is a Draft and is not active on any network. Verified against the specification, the official release notes and the staking API reference on October 11, 2026.",
     mip12ActivationSource: "Official activation evidence (release notes)",
+    mip10Note:
+      "MIP-10 is a Draft. Since v0.16.2, Monad testnet and mainnet publish proposals in the v1 format and still accept v0 (stage 3 of 4). Verified against the specification, the official release notes and monad-bft on October 13, 2026.",
+    mip10RolloutSource: "Rollout in the release notes (v0.16.2)",
     mip15Note:
       "MIP-15 is in Review and is not active on any network. Verified against the specification and the official release notes on October 10, 2026.",
     mip18Note:

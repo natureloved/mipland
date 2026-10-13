@@ -21,6 +21,10 @@ notes, and a path to activation.
 - **MIP-8: Page-ified Storage.** Final, active on Monad mainnet since the
   MONAD_TEN upgrade on September 2, 2026. Groups 128 storage slots into 4 KB
   pages and charges cold access per page instead of per slot; see `mip-8.md`.
+- **MIP-10: Deterministic RaptorCast.** Draft, rolling out: since v0.16.2
+  (mainnet September 10, 2026) nodes publish block proposals in the v1 format
+  and still accept v0. Puts every chunk of a proposal under one Merkle root and
+  derives which validator gets each chunk from a public seed; see `mip-10.md`.
 - **MIP-11: Automatic Priority Fee Distribution.** Draft, not active on any
   network. Sends each block's priority fees to the leading validator's staking
   pool instead of its beneficiary address. The spec leaves the minimum amount
